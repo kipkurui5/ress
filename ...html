@@ -1,0 +1,1991 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Enock Kipkirui | Geospatial Engineer</title>
+    <meta
+      name="description"
+      content="Geospatial Engineer: GIS, remote sensing, spatial data science and GeoAI."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      :root {
+        --bg: #07121f;
+        --bg2: #0d1f33;
+        --card: #10263d;
+        --tx: #e6f1fa;
+        --mut: #8fa8bf;
+        --ac: #2ee6c5;
+        --ac2: #4da3ff;
+        --bd: #1d3a57;
+      }
+      [data-theme="light"] {
+        --bg: #f3f8fc;
+        --bg2: #e4eef7;
+        --card: #fff;
+        --tx: #0b1d2e;
+        --mut: #4a6176;
+        --ac: #009e86;
+        --ac2: #1f6fd1;
+        --bd: #cfdeea;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: Inter, sans-serif;
+        background: var(--bg);
+        color: var(--tx);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Prevent scrolling while preloader is active */
+      body.loading {
+        overflow: hidden;
+      }
+
+      /* =========================================
+         PRELOADER STYLES
+         ========================================= */
+      #preloader {
+        position: fixed;
+        inset: 0;
+        background: color-mix(
+          in srgb,
+          var(--bg) 10%,
+          transparent
+        ); /* 10% opacity interface */
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition:
+          opacity 2s ease,
+          visibility 2s ease;
+      }
+      #preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .loader-content {
+        text-align: center;
+      }
+
+      /* HOT STYLING MAGIC TEXT */
+      .loader-logo-magic {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+
+        background: linear-gradient(
+          90deg,
+          var(--ac),
+          var(--ac2),
+          var(--ac),
+          var(--ac2)
+        );
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+
+        animation:
+          magicShimmer 3s infinite linear,
+          magicFade 2s infinite ease-in-out;
+
+        filter: drop-shadow(0 0 15px rgba(46, 230, 197, 0.4));
+      }
+
+      @keyframes magicShimmer {
+        0% {
+          background-position: 0% center;
+        }
+        100% {
+          background-position: 100% center;
+        }
+      }
+
+      @keyframes magicFade {
+        0%,
+        100% {
+          opacity: 0.05;
+          transform: scale(0.95);
+        }
+        50% {
+          opacity: 0.1;
+          transform: scale(1.05);
+        } /* Max 10% opacity */
+      }
+
+      /* Emoji + Ring Loader */
+      .loader-emoji-container {
+        position: relative;
+        width: 280px;
+        height: 280px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .loader-spinner-ring {
+        position: absolute;
+        inset: 0;
+        border: 8px solid rgba(46, 230, 197, 0.15);
+        border-top-color: var(--ac);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        opacity: 0.2; /* 20% opacity */
+      }
+
+      /* RAPID EXPANDING EMOJI */
+      .loader-emoji {
+        font-size: 7rem;
+        z-index: 1;
+        animation: emojiExpandRapid 0.3s infinite alternate ease-in-out;
+        opacity: 0.2; /* 20% opacity */
+      }
+
+      @keyframes emojiExpandRapid {
+        0% {
+          transform: scale(1);
+          opacity: 0.2;
+        }
+        100% {
+          transform: scale(1.6);
+          opacity: 0.2;
+        }
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* =========================================
+         DYNAMIC DROP-IN ANIMATIONS (ALL DIRECTIONS)
+         ========================================= */
+      .anim-item {
+        opacity: 0;
+        will-change: transform, opacity;
+      }
+
+      @keyframes slideTop {
+        0% {
+          opacity: 0;
+          transform: translateY(-60px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes slideBottom {
+        0% {
+          opacity: 0;
+          transform: translateY(60px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes slideLeft {
+        0% {
+          opacity: 0;
+          transform: translateX(-60px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      @keyframes slideRight {
+        0% {
+          opacity: 0;
+          transform: translateX(60px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* =========================================
+         GENERAL STYLES & DASHBOARD LAYOUT
+         ========================================= */
+      h1,
+      h2,
+      h3 {
+        font-family: "Space Grotesk", sans-serif;
+      }
+      a {
+        color: var(--ac);
+        text-decoration: none;
+        word-break: break-word;
+      }
+      canvas#bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        opacity: 0.55;
+        pointer-events: none;
+      }
+
+      /* Dashboard Section Wrapper */
+      .dashboard-section {
+        display: none;
+        min-height: 100vh;
+        padding-top: 120px;
+        padding-bottom: 60px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Active Section */
+      .dashboard-section.active {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: auto;
+        padding: 0 5%;
+        width: 100%;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 5%;
+        background: color-mix(in srgb, var(--bg) 90%, transparent);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--bd);
+        opacity: 0;
+        transform: translateY(-100%);
+        transition:
+          opacity 1s ease,
+          transform 1s ease;
+      }
+      nav.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      nav .logo {
+        font-family: "Space Grotesk";
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+      nav .logo span {
+        color: var(--ac);
+      }
+      nav ul {
+        display: flex;
+        gap: 22px;
+        list-style: none;
+        align-items: center;
+      }
+      nav ul a {
+        color: var(--tx);
+        font-size: 0.92rem;
+        transition: color 0.3s ease;
+        position: relative;
+        padding-bottom: 4px;
+        cursor: pointer;
+      }
+
+      /* Active Nav Link Style */
+      nav ul a.active-link {
+        color: var(--ac);
+        font-weight: 600;
+      }
+      nav ul a.active-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--ac);
+        border-radius: 2px;
+      }
+
+      nav ul a:hover {
+        color: var(--ac);
+      }
+      #theme {
+        background: none;
+        border: 1px solid var(--bd);
+        color: var(--tx);
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        cursor: pointer;
+      }
+      #menu {
+        display: none;
+        background: none;
+        border: 0;
+        color: var(--tx);
+        font-size: 1.6rem;
+      }
+
+      /* =========================================
+         HERO SECTION (No more blank space)
+         ========================================= */
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto 0;
+      }
+      .hero .wrap {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 50px;
+        align-items: center;
+      }
+      .tag {
+        color: var(--ac);
+        font-weight: 600;
+        letter-spacing: 2px;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+      }
+      .hero h1 {
+        font-size: clamp(2.2rem, 5vw, 3.8rem);
+        line-height: 1.1;
+        margin: 10px 0;
+      }
+      .hero h1 em {
+        font-style: normal;
+        background: linear-gradient(90deg, var(--ac), var(--ac2));
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+      .type {
+        font-size: 1.3rem;
+        color: var(--ac2);
+        min-height: 2em;
+        font-weight: 500;
+      }
+      .type::after {
+        content: "|";
+        animation: b 1s infinite;
+      }
+      @keyframes b {
+        50% {
+          opacity: 0;
+        }
+      }
+      .hero p.lead {
+        color: var(--mut);
+        margin: 14px 0 24px;
+        max-width: 560px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-weight: 600;
+        margin: 0 10px 10px 0;
+        border: 1px solid var(--ac);
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-family: inherit;
+        transition: all 0.3s ease;
+        background: transparent;
+      }
+      .btn.p {
+        background: linear-gradient(90deg, var(--ac), var(--ac2));
+        color: #04121c;
+        border: 0;
+      }
+      .btn.s {
+        background: none;
+        color: var(--ac);
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(46, 230, 197, 0.25);
+      }
+      .btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+        transform: none;
+        box-shadow: none;
+      }
+
+      /* =========================================
+         SLOW BREATHING & ROTATING PHOTO ANIMATION
+         ========================================= */
+      @keyframes slowBreathing {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 15px rgba(46, 230, 197, 0.2);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 0 30px rgba(46, 230, 197, 0.5);
+        }
+      }
+
+      @keyframes innerRingAnim {
+        0% {
+          transform: rotate(0deg) scale(1);
+        }
+        12.5% {
+          transform: rotate(45deg) scale(1.05);
+        }
+        25% {
+          transform: rotate(90deg) scale(1);
+        }
+        37.5% {
+          transform: rotate(135deg) scale(1.05);
+        }
+        50% {
+          transform: rotate(180deg) scale(1);
+        }
+        62.5% {
+          transform: rotate(225deg) scale(1.05);
+        }
+        75% {
+          transform: rotate(270deg) scale(1);
+        }
+        87.5% {
+          transform: rotate(315deg) scale(1.05);
+        }
+        100% {
+          transform: rotate(360deg) scale(1);
+        }
+      }
+
+      @keyframes outerRingAnim {
+        0% {
+          transform: rotate(360deg) scale(1);
+        }
+        12.5% {
+          transform: rotate(315deg) scale(1.12);
+        }
+        25% {
+          transform: rotate(270deg) scale(1);
+        }
+        37.5% {
+          transform: rotate(225deg) scale(1.12);
+        }
+        50% {
+          transform: rotate(180deg) scale(1);
+        }
+        62.5% {
+          transform: rotate(135deg) scale(1.12);
+        }
+        75% {
+          transform: rotate(90deg) scale(1);
+        }
+        87.5% {
+          transform: rotate(45deg) scale(1.12);
+        }
+        100% {
+          transform: rotate(0deg) scale(1);
+        }
+      }
+
+      .photo {
+        position: relative;
+        width: min(340px, 80%);
+        margin: auto;
+        aspect-ratio: 1;
+      }
+
+      .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid var(--ac);
+        position: relative;
+        z-index: 2;
+        animation: slowBreathing 6s infinite ease-in-out;
+      }
+
+      .photo::before,
+      .photo::after {
+        content: "";
+        position: absolute;
+        inset: -14px;
+        border-radius: 50%;
+        border: 1px dashed var(--ac2);
+        pointer-events: none;
+      }
+
+      .photo::before {
+        animation: innerRingAnim 24s linear infinite;
+      }
+
+      .photo::after {
+        inset: -30px;
+        border-color: var(--ac);
+        opacity: 0.6;
+        animation: outerRingAnim 40s linear infinite;
+      }
+
+      /* =========================================
+         CONTENT PAGES (Stats, About, Skills, etc.)
+         ========================================= */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+      .stat {
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-radius: 14px;
+        padding: 18px;
+        text-align: center;
+      }
+      .stat b {
+        font-family: "Space Grotesk";
+        font-size: 2rem;
+        color: var(--ac);
+      }
+      .stat span {
+        display: block;
+        color: var(--mut);
+        font-size: 0.82rem;
+      }
+      h2.t {
+        font-size: 2rem;
+        margin-bottom: 6px;
+      }
+      h2.t::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--ac), var(--ac2));
+        margin-top: 8px;
+        border-radius: 3px;
+      }
+      .sub {
+        color: var(--mut);
+        margin-bottom: 28px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-radius: 16px;
+        padding: 22px;
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s;
+      }
+      .card:hover {
+        border-color: var(--ac);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      }
+      .card h3 {
+        margin-bottom: 8px;
+      }
+      .card p,
+      .card li {
+        color: var(--mut);
+        font-size: 0.93rem;
+      }
+      .card ul {
+        padding-left: 18px;
+        margin-top: 8px;
+      }
+      .chip {
+        display: inline-block;
+        font-size: 0.72rem;
+        padding: 3px 10px;
+        border-radius: 20px;
+        background: var(--bg2);
+        border: 1px solid var(--bd);
+        color: var(--ac);
+        margin: 8px 6px 0 0;
+      }
+      .bar {
+        margin: 14px 0;
+      }
+      .bar div.l {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.88rem;
+        margin-bottom: 5px;
+      }
+      .bar .tr {
+        height: 8px;
+        background: var(--bg2);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .bar .f {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--ac), var(--ac2));
+        border-radius: 8px;
+        transition: width 1.4s ease;
+      }
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+      .filters button {
+        background: none;
+        border: 1px solid var(--bd);
+        color: var(--tx);
+        padding: 7px 18px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s ease;
+      }
+      .filters button.on,
+      .filters button:hover {
+        background: var(--ac);
+        color: #04121c;
+        border-color: var(--ac);
+      }
+      .shot {
+        height: 130px;
+        border-radius: 10px;
+        margin-bottom: 14px;
+        background:
+          linear-gradient(135deg, var(--bg2), var(--card)),
+          repeating-linear-gradient(
+            45deg,
+            transparent 0 10px,
+            rgba(46, 230, 197, 0.08) 10px 11px
+          );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--mut);
+        font-size: 0.8rem;
+        overflow: hidden;
+      }
+      .shot img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .tl {
+        border-left: 2px solid var(--ac);
+        padding-left: 24px;
+        margin-left: 8px;
+      }
+      .tl .it {
+        position: relative;
+        margin-bottom: 26px;
+      }
+      .tl .it::before {
+        content: "";
+        position: absolute;
+        left: -32px;
+        top: 6px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--ac);
+        box-shadow: 0 0 0 4px var(--bg);
+      }
+      .tl small {
+        color: var(--ac2);
+        font-weight: 600;
+      }
+      form {
+        display: grid;
+        gap: 14px;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 13px;
+        border-radius: 10px;
+        border: 1px solid var(--bd);
+        background: var(--card);
+        color: var(--tx);
+        font-family: inherit;
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 30px;
+      }
+      footer {
+        text-align: center;
+        padding: 30px;
+        color: var(--mut);
+        border-top: 1px solid var(--bd);
+        font-size: 0.88rem;
+        margin-top: auto;
+      }
+
+      /* =========================================
+         FLOATING SOCIAL BUTTONS
+         ========================================= */
+      .whatsapp-float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 40px;
+        background-color: #25d366;
+        color: #fff !important;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 35px;
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+      .whatsapp-float:hover {
+        background-color: #128c7e;
+        color: #fff;
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 6px 20px rgba(18, 140, 126, 0.6);
+      }
+      .instagram-float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 115px;
+        right: 40px;
+        background: radial-gradient(
+          circle at 30% 107%,
+          #fdf497 0%,
+          #fdf497 5%,
+          #fd5949 45%,
+          #d6249f 60%,
+          #285aeb 90%
+        );
+        color: #fff !important;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 35px;
+        box-shadow: 0 4px 15px rgba(214, 36, 159, 0.4);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+      .instagram-float:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 6px 20px rgba(214, 36, 159, 0.6);
+      }
+      .snapchat-float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 190px;
+        right: 40px;
+        background-color: #fffc00;
+        color: #000 !important;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 35px;
+        box-shadow: 0 4px 15px rgba(255, 252, 0, 0.4);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+      .snapchat-float:hover {
+        background-color: #e6e300;
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 6px 20px rgba(230, 227, 0, 0.6);
+      }
+
+      /* =========================================
+         RECOMMENDATION MODAL
+         ========================================= */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 100000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(7, 18, 31, 0.9);
+        backdrop-filter: blur(5px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        justify-content: center;
+        align-items: center;
+      }
+      .modal.show {
+        opacity: 1;
+      }
+      .modal-content {
+        max-width: 90%;
+        max-height: 90vh;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        object-fit: contain;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+        background: white;
+      }
+      .modal.show .modal-content {
+        transform: scale(1);
+      }
+      .close-modal {
+        position: absolute;
+        top: 30px;
+        right: 40px;
+        color: var(--tx);
+        font-size: 2.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+      .close-modal:hover {
+        color: var(--ac);
+      }
+
+      /* =========================================
+         CV WAIT MODAL
+         ========================================= */
+      .cv-modal {
+        display: none;
+        position: fixed;
+        z-index: 100000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(7, 18, 31, 0.8);
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        justify-content: center;
+        align-items: center;
+      }
+      .cv-modal.show {
+        opacity: 1;
+      }
+      .cv-modal-content {
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-radius: 16px;
+        width: 90%;
+        max-width: 500px;
+        padding: 30px;
+        position: relative;
+        transform: translateY(20px);
+        transition: transform 0.3s ease;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+      .cv-modal.show .cv-modal-content {
+        transform: translateY(0);
+      }
+      .cv-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        color: var(--mut);
+        font-size: 1.8rem;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+      .cv-close:hover {
+        color: var(--ac);
+      }
+      .cv-modal-body p {
+        color: var(--tx);
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+      .cv-modal-body .emoji {
+        font-size: 1.5rem;
+        display: inline-block;
+        animation: bounceEmoji 2s infinite;
+      }
+      @keyframes bounceEmoji {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      /* Continuous Loading Bar */
+      .cv-loading-container {
+        width: 100%;
+        height: 6px;
+        background: var(--bg2);
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 25px 0 15px;
+        position: relative;
+      }
+      .cv-loading-bar {
+        height: 100%;
+        width: 30%;
+        background: linear-gradient(90deg, var(--ac), var(--ac2));
+        border-radius: 3px;
+        position: absolute;
+        left: -30%;
+        animation: loadAnimation 1.5s infinite ease-in-out;
+      }
+      @keyframes loadAnimation {
+        0% {
+          left: -30%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+      .cv-loading-text {
+        color: var(--mut);
+        font-size: 0.9rem;
+        margin-bottom: 30px;
+        font-weight: 500;
+      }
+
+      .cv-modal-footer {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+      .cv-modal-footer button {
+        margin: 0;
+        padding: 10px 25px;
+        font-size: 0.9rem;
+      }
+
+      /* =========================================
+         RESPONSIVE DESIGN (MOBILE & TABLETS)
+         ========================================= */
+      @media (max-width: 800px) {
+        .dashboard-section {
+          padding-top: 100px;
+          padding-bottom: 180px;
+        }
+
+        .hero .wrap,
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .photo {
+          order: -1;
+          width: 220px;
+          margin-bottom: 30px;
+        }
+
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        #menu {
+          display: block;
+        }
+
+        nav ul {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          flex-direction: column;
+          background: var(--bg);
+          padding: 20px;
+          border-bottom: 1px solid var(--bd);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        nav ul.open {
+          display: flex;
+        }
+
+        .whatsapp-float {
+          width: 50px;
+          height: 50px;
+          bottom: 20px;
+          right: 20px;
+          font-size: 28px;
+        }
+
+        .instagram-float {
+          width: 50px;
+          height: 50px;
+          bottom: 85px;
+          right: 20px;
+          font-size: 28px;
+        }
+
+        .snapchat-float {
+          width: 50px;
+          height: 50px;
+          bottom: 150px;
+          right: 20px;
+          font-size: 28px;
+        }
+
+        .close-modal {
+          top: 20px;
+          right: 25px;
+          font-size: 2rem;
+        }
+
+        .loader-logo-magic {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="loading">
+    <!-- Preloader -->
+    <div id="preloader">
+      <div class="loader-content">
+        <div class="loader-logo-magic">_kipkurui_enoc</div>
+        <div class="loader-emoji-container">
+          <div class="loader-spinner-ring"></div>
+          <div class="loader-emoji">🌍</div>
+        </div>
+      </div>
+    </div>
+
+    <canvas id="bg"></canvas>
+
+    <nav id="mainNav">
+      <div class="logo">Enock<span>.</span>Geo</div>
+      <button id="menu">☰</button>
+      <ul id="links">
+        <li><a href="#home" class="nav-link active-link">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#research" class="nav-link">Research</a></li>
+        <li><a href="#resume" class="nav-link">Resume</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><button id="theme" title="Toggle theme">◐</button></li>
+      </ul>
+    </nav>
+
+    <!-- ==========================================
+         HOME (Dashboard Section)
+         ========================================== -->
+    <header class="dashboard-section active" id="home">
+      <div class="wrap hero">
+        <div>
+          <div class="tag anim-item" style="animation-delay: 0s">
+            Geospatial Engineer · Kenya
+          </div>
+          <h1 class="anim-item" style="animation-delay: 0.1s">
+            Hi, I'm <em>Enock Kipkirui</em>
+          </h1>
+          <div
+            class="type anim-item"
+            id="type"
+            style="animation-delay: 0.2s"
+          ></div>
+          <p class="lead anim-item" style="animation-delay: 0.3s">
+            I process, analyse and visualise spatial data to support
+            environmental monitoring, land-use analysis, surveying and
+            evidence-based decisions, from satellite imagery to machine-learning
+            risk maps.
+          </p>
+
+          <div class="hero-actions anim-item" style="animation-delay: 0.4s">
+            <a class="btn p" href="#projects">View Projects</a>
+            <button id="downloadCvBtn" class="btn s">Download CV</button>
+            <a class="btn s" href="#contact">Let's Talk</a>
+            <button
+              id="recommendationBtn"
+              class="btn p"
+              style="margin-left: 5px"
+            >
+              View Recommendation
+            </button>
+          </div>
+        </div>
+
+        <div class="photo anim-item" style="animation-delay: 0.5s">
+          <img src="image/profile.jpeg" alt="Enock Kipkirui" />
+        </div>
+      </div>
+    </header>
+
+    <!-- ==========================================
+         ABOUT
+         ========================================== -->
+    <section class="dashboard-section" id="about">
+      <div class="wrap">
+        <h2 class="t anim-item">About Me</h2>
+        <p class="sub anim-item">
+          Where surveying precision meets data science.
+        </p>
+
+        <div class="stats">
+          <div class="stat anim-item">
+            <b data-n="6">0</b><span>Geospatial Projects</span>
+          </div>
+          <div class="stat anim-item">
+            <b data-n="16">0</b><span>Years of Data Studied</span>
+          </div>
+          <div class="stat anim-item">
+            <b data-n="12">0</b><span>Tools &amp; Libraries</span>
+          </div>
+          <div class="stat anim-item">
+            <b data-n="3">0</b><span>Counties Analysed</span>
+          </div>
+        </div>
+
+        <div class="contact-grid">
+          <div class="anim-item">
+            <p>
+              I am a Geospatial Engineering graduate from
+              <b
+                >Jomo Kenyatta University of Agriculture and Technology
+                (JKUAT)</b
+              >, having graduated in <b>August 2026</b>. My background spans
+              surveying, GIS, cartography and remote sensing, and I'm
+              increasingly focused on <b>GeoAI</b> and spatial epidemiology.
+            </p>
+            <p style="margin-top: 12px">
+              I enjoy automating GIS workflows with Python, building interactive
+              maps, and turning satellite and survey data into insight people
+              can act on.
+            </p>
+            <p style="margin-top: 12px; color: var(--mut)">
+              Interests: GeoAI · Machine learning · Earth observation ·
+              Environmental monitoring · Land-cover mapping
+            </p>
+          </div>
+          <div class="tl anim-item">
+            <div class="it">
+              <small>Graduated August 2026</small>
+              <h3>BSc Geospatial Engineering</h3>
+              <p style="color: var(--mut)">JKUAT, Kenya</p>
+            </div>
+            <div class="it">
+              <small>Industrial Attachment</small>
+              <h3>Kenya Rural Roads Authority (KeRRA)</h3>
+              <p style="color: var(--mut)">
+                Applied surveying and geospatial skills on road-sector work.
+              </p>
+            </div>
+            <div class="it">
+              <small>Ongoing</small>
+              <h3>Rift Valley Fever Risk Research</h3>
+              <p style="color: var(--mut)">
+                Predictive mapping for Garissa County (proposal, 2026).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SKILLS
+         ========================================== -->
+    <section class="dashboard-section" id="skills">
+      <div class="wrap">
+        <h2 class="t anim-item">Skills</h2>
+        <p class="sub anim-item">
+          Tools and workflows I use to get from raw data to decisions.
+        </p>
+
+        <div class="grid">
+          <div class="card anim-item">
+            <h3>GIS &amp; Spatial Analysis</h3>
+            <div class="bar">
+              <div class="l"><span>ArcGIS / QGIS</span><span>90%</span></div>
+              <div class="tr"><div class="f" data-w="90"></div></div>
+            </div>
+            <div class="bar">
+              <div class="l">
+                <span>Projections &amp; CRS</span><span>88%</span>
+              </div>
+              <div class="tr"><div class="f" data-w="88"></div></div>
+            </div>
+            <div class="bar">
+              <div class="l">
+                <span>Hydrological Analysis</span><span>80%</span>
+              </div>
+              <div class="tr"><div class="f" data-w="80"></div></div>
+            </div>
+          </div>
+          <div class="card anim-item">
+            <h3>Remote Sensing</h3>
+            <div class="bar">
+              <div class="l">
+                <span>Landsat / NDVI / NDWI</span><span>88%</span>
+              </div>
+              <div class="tr"><div class="f" data-w="88"></div></div>
+            </div>
+            <div class="bar">
+              <div class="l">
+                <span>Land-cover Classification</span><span>80%</span>
+              </div>
+              <div class="tr"><div class="f" data-w="80"></div></div>
+            </div>
+            <div class="bar">
+              <div class="l"><span>DEM Analysis</span><span>85%</span></div>
+              <div class="tr"><div class="f" data-w="85"></div></div>
+            </div>
+          </div>
+          <div class="card anim-item">
+            <h3>Programming &amp; Data Science</h3>
+            <div class="bar">
+              <div class="l">
+                <span>Python (GeoPandas, Rasterio)</span><span>82%</span>
+              </div>
+              <div class="tr"><div class="f" data-w="82"></div></div>
+            </div>
+            <div class="bar">
+              <div class="l"><span>R / spatstat</span><span>70%</span></div>
+              <div class="tr"><div class="f" data-w="70"></div></div>
+            </div>
+            <div class="bar">
+              <div class="l">
+                <span>ML (Random Forest, XGBoost)</span><span>72%</span>
+              </div>
+              <div class="tr"><div class="f" data-w="72"></div></div>
+            </div>
+          </div>
+          <div class="card anim-item">
+            <h3>Surveying &amp; CAD</h3>
+            <div class="bar">
+              <div class="l">
+                <span>Civil 3D / AutoCAD</span><span>80%</span>
+              </div>
+              <div class="tr"><div class="f" data-w="80"></div></div>
+            </div>
+            <div class="bar">
+              <div class="l">
+                <span>Traverse, Levelling</span><span>88%</span>
+              </div>
+              <div class="tr"><div class="f" data-w="88"></div></div>
+            </div>
+            <div class="bar">
+              <div class="l"><span>RTK Surveying</span><span>78%</span></div>
+              <div class="tr"><div class="f" data-w="78"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PROJECTS
+         ========================================== -->
+    <section class="dashboard-section" id="projects">
+      <div class="wrap">
+        <h2 class="t anim-item">Projects</h2>
+        <p class="sub anim-item">Click a filter to explore.</p>
+
+        <div class="filters anim-item">
+          <button class="on" data-f="all">All</button>
+          <button data-f="rs">Remote Sensing</button>
+          <button data-f="gis">GIS</button>
+          <button data-f="ds">Data Science</button>
+          <button data-f="cad">CAD</button>
+        </div>
+
+        <div class="grid" id="pg">
+          <div class="card pj anim-item" data-c="rs">
+            <div class="shot">
+              <img src="image/landsat9.jpeg" alt="Landsat 9" />
+            </div>
+            <h3>Landsat 9 Image Analysis</h3>
+            <p>
+              Band stacking, mosaicking and clipping for Uasin Gishu and Busia
+              counties.
+            </p>
+            <span class="chip">Landsat 9</span><span class="chip">QGIS</span>
+          </div>
+          <div class="card pj anim-item" data-c="gis ds">
+            <div class="shot">
+              <img src="image/malaria.jpeg" alt="Malaria" />
+            </div>
+            <h3>Malaria Spatial Analysis, Kenya</h3>
+            <p>
+              County-level prevalence comparisons from DHS datasets with
+              interactive maps.
+            </p>
+            <span class="chip">DHS</span><span class="chip">Python</span>
+          </div>
+          <div class="card pj anim-item" data-c="gis rs">
+            <div class="shot">
+              <img src="image/watershade.jpeg" alt="Watershed" />
+            </div>
+            <h3>Watershed &amp; River Network Extraction</h3>
+            <p>
+              Watershed delineation and stream extraction from a 30 m SRTM DEM
+              using Python.
+            </p>
+            <span class="chip">SRTM</span><span class="chip">Python</span>
+          </div>
+          <div class="card pj anim-item" data-c="gis ds">
+            <div class="shot">
+              <img
+                src="image/point%20pattern%20analysis.jpeg"
+                alt="Point Pattern"
+              />
+            </div>
+            <h3>Point Pattern Analysis</h3>
+            <p>
+              Health-facility distribution using kernel density and
+              point-pattern methods in R.
+            </p>
+            <span class="chip">R</span><span class="chip">KDE</span>
+          </div>
+          <div class="card pj anim-item" data-c="ds rs">
+            <div class="shot"><img src="image/rvf.jpeg" alt="RVF" /></div>
+            <h3>RVF Predictive Risk Mapping</h3>
+            <p>
+              Random Forest and XGBoost risk model for Garissa County using
+              climate and vegetation data.
+            </p>
+            <span class="chip">XGBoost</span><span class="chip">GeoAI</span>
+          </div>
+          <div class="card pj anim-item" data-c="cad gis">
+            <div class="shot">
+              <img src="image/jkuat%20transport%20planning.jpeg" alt="JKUAT" />
+            </div>
+            <h3>JKUAT Transport Planning</h3>
+            <p>
+              Campus master-plan recreation in CAD with vehicular and
+              non-motorised movement analysis.
+            </p>
+            <span class="chip">Civil 3D</span
+            ><span class="chip">Transport</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         RESEARCH
+         ========================================== -->
+    <section class="dashboard-section" id="research">
+      <div class="wrap">
+        <h2 class="t anim-item">Research</h2>
+        <p class="sub anim-item">
+          Rift Valley Fever Predictive Risk Mapping (Proposal, 2026)
+        </p>
+
+        <div class="card anim-item">
+          <p>
+            Rift Valley Fever outbreaks follow climate and landscape signals.
+            This study will combine <b>2010–2025</b> spatio-temporal data to
+            predict where and when risk is highest, so that surveillance and
+            vaccination can be targeted.
+          </p>
+          <div class="grid" style="margin-top: 18px">
+            <div>
+              <h3>Data</h3>
+              <ul>
+                <li>Rainfall</li>
+                <li>NDVI &amp; NDWI</li>
+                <li>Land surface temp</li>
+                <li>Livestock density</li>
+                <li>Historical outbreaks</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Methods</h3>
+              <ul>
+                <li>Feature engineering</li>
+                <li>Random Forest</li>
+                <li>XGBoost</li>
+                <li>Model validation</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Output</h3>
+              <ul>
+                <li>Predictive risk maps</li>
+                <li>Key driver ranking</li>
+                <li>Decision-support insights</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         RESUME
+         ========================================== -->
+    <section class="dashboard-section" id="resume">
+      <div class="wrap">
+        <h2 class="t anim-item">Resume</h2>
+        <p class="sub anim-item">
+          A quick snapshot. The full CV is one click away.
+        </p>
+
+        <div class="card anim-item">
+          <h3>Enock Kipkirui, Geospatial Engineer</h3>
+          <p>
+            BSc Geospatial Engineering (Aug 2026), JKUAT · Industrial
+            attachment, KeRRA · GIS, Remote Sensing, Python, R, Surveying, GeoAI
+          </p>
+          <button class="btn p" style="margin-top: 16px" id="downloadCvBtn2">
+            Download CV (PDF)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         CONTACT
+         ========================================== -->
+    <section class="dashboard-section" id="contact">
+      <div class="wrap">
+        <h2 class="t anim-item">Contact</h2>
+        <p class="sub anim-item">
+          Open to attachments, graduate roles, collaborations and research.
+        </p>
+
+        <div class="contact-grid">
+          <div class="card anim-item">
+            <p>📧 <a href="mailto:ke438740@gmail.com">ke438740@gmail.com</a></p>
+            <p>📱 +254 728 300 261</p>
+            <p>💼 <a href="#" target="_blank">LinkedIn</a></p>
+            <p>💻 <a href="#" target="_blank">GitHub</a></p>
+            <p>
+              📸
+              <a href="https://www.instagram.com/_kipkurui_enoc" target="_blank"
+                >@_kipkurui_enoc</a
+              >
+            </p>
+            <p>📍 Kenya</p>
+          </div>
+          <form id="cf" class="anim-item">
+            <input id="nm" placeholder="Your name" required />
+            <input id="em" type="email" placeholder="Your email" required />
+            <textarea
+              id="ms"
+              rows="5"
+              placeholder="Your message"
+              required
+            ></textarea>
+            <button class="btn p" type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="yr"></span> Enock Kipkirui · Geospatial Engineer · Built with
+      curiosity and coordinates 🌍
+    </footer>
+
+    <!-- Floating Snapchat Button -->
+    <a
+      href="https://www.snapchat.com/add/enoc4030"
+      class="snapchat-float"
+      target="_blank"
+      aria-label="Add on Snapchat"
+    >
+      <i class="fab fa-snapchat-ghost"></i>
+    </a>
+
+    <!-- Floating Instagram Button -->
+    <a
+      href="https://www.instagram.com/_kipkurui_enoc"
+      class="instagram-float"
+      target="_blank"
+      aria-label="Follow on Instagram"
+    >
+      <i class="fab fa-instagram"></i>
+    </a>
+
+    <!-- Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/254728300261"
+      class="whatsapp-float"
+      target="_blank"
+      aria-label="Chat on WhatsApp"
+    >
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Recommendation Modal -->
+    <div id="recommendationModal" class="modal">
+      <span class="close-modal">&times;</span>
+      <img
+        class="modal-content"
+        id="recommendationImg"
+        src="image/recommendation.jpeg"
+        alt="Recommendation Letter"
+      />
+    </div>
+
+    <!-- CV Wait Modal -->
+    <div id="cvModal" class="cv-modal">
+      <div class="cv-modal-content">
+        <span id="cvCloseBtn" class="cv-close">&times;</span>
+        <div class="cv-modal-body">
+          <p>
+            Kindly wait, your request has been sent to the server so you'll have
+            to wait <span class="emoji">😊</span>
+          </p>
+        </div>
+
+        <div class="cv-loading-container">
+          <div class="cv-loading-bar"></div>
+        </div>
+        <p class="cv-loading-text">Please wait...</p>
+
+        <div class="cv-modal-footer">
+          <button
+            id="cvBackBtn"
+            class="btn s"
+            style="color: var(--tx); border-color: var(--bd)"
+          >
+            <i class="fas fa-arrow-left"></i> Go Back
+          </button>
+          <button
+            id="cvExitBtnFooter"
+            class="btn s"
+            style="color: var(--tx); border-color: var(--bd)"
+          >
+            Exit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VanillaTilt Library for 3D Card Effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <script>
+      // =========================================
+      // 1. FORCE SCROLL TO TOP ON REFRESH
+      // =========================================
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+
+      // =========================================
+      // 2. UNIVERSAL ANIMATION ENGINE
+      // =========================================
+      function animatePageContent(targetId) {
+        const targetSection = document.querySelector(targetId);
+        if (!targetSection) return;
+
+        const items = targetSection.querySelectorAll(".anim-item");
+        const directions = [
+          "slideTop",
+          "slideBottom",
+          "slideLeft",
+          "slideRight",
+        ];
+
+        items.forEach((item, index) => {
+          item.style.animation = "none";
+          item.style.opacity = "0";
+
+          void item.offsetWidth;
+
+          const animName = directions[index % directions.length];
+
+          item.style.animation = `${animName} 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards`;
+          item.style.animationDelay = `${index * 0.1}s`;
+
+          // Unlock tilt after animation completes
+          setTimeout(
+            () => {
+              item.style.animation = "none";
+              item.style.transform = "none";
+              item.style.opacity = "1";
+
+              if (item.classList.contains("card")) {
+                if (typeof VanillaTilt !== "undefined") {
+                  VanillaTilt.init(item, {
+                    max: 15,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.25,
+                    scale: 1.02,
+                  });
+                }
+              }
+            },
+            800 + index * 100 + 100,
+          );
+        });
+      }
+
+      // =========================================
+      // 3. DASHBOARD TAB SWITCHING LOGIC
+      // =========================================
+      const dashboardSections = document.querySelectorAll(".dashboard-section");
+      const navLinks = document.querySelectorAll(".nav-link");
+      const preloader = document.getElementById("preloader");
+      const mobileMenu = document.getElementById("links");
+
+      function switchTab(targetId) {
+        // 1. Hide all sections
+        dashboardSections.forEach((sec) => {
+          sec.classList.remove("active");
+        });
+
+        // 2. Show target section
+        const targetSection = document.querySelector(targetId);
+        if (targetSection) {
+          targetSection.classList.add("active");
+
+          // 3. Scroll to the very top instantly
+          window.scrollTo(0, 0);
+
+          // 4. Trigger the drop-in animations
+          animatePageContent(targetId);
+        }
+
+        // 5. Update active nav link
+        navLinks.forEach((link) => {
+          link.classList.remove("active-link");
+          if (link.getAttribute("href") === targetId) {
+            link.classList.add("active-link");
+          }
+        });
+      }
+
+      // Handle Navigation Clicks
+      navLinks.forEach((link) => {
+        link.addEventListener("click", function (e) {
+          const targetId = this.getAttribute("href");
+          if (targetId === "#" || targetId === "") return;
+
+          e.preventDefault();
+
+          if (mobileMenu.classList.contains("open")) {
+            mobileMenu.classList.remove("open");
+          }
+
+          // Show Preloader for 2 seconds
+          preloader.style.display = "flex";
+          preloader.classList.remove("hidden");
+
+          setTimeout(() => {
+            preloader.classList.add("hidden");
+
+            // Switch the view
+            switchTab(targetId);
+
+            // Fully hide preloader
+            setTimeout(() => {
+              preloader.style.display = "none";
+            }, 2000);
+          }, 2000);
+        });
+      });
+
+      // Initial Load Setup
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          preloader.classList.add("hidden");
+          document.body.classList.remove("loading");
+
+          // Animate Navbar
+          document.getElementById("mainNav").classList.add("animate-in");
+
+          // Animate Home Section
+          animatePageContent("#home");
+        }, 2000);
+
+        setTimeout(() => {
+          if (preloader) preloader.style.display = "none";
+        }, 4000);
+      });
+
+      // =========================================
+      // 4. RECOMMENDATION BUTTON & MODAL LOGIC
+      // =========================================
+      const recBtn = document.getElementById("recommendationBtn");
+      const modal = document.getElementById("recommendationModal");
+      const closeModal = document.querySelector(".close-modal");
+
+      recBtn.addEventListener("click", () => {
+        const originalText = recBtn.innerText;
+        recBtn.innerText = "Loading...";
+        recBtn.disabled = true;
+
+        setTimeout(() => {
+          recBtn.innerText = originalText;
+          recBtn.disabled = false;
+
+          modal.style.display = "flex";
+          setTimeout(() => {
+            modal.classList.add("show");
+          }, 10);
+        }, 5000);
+      });
+
+      closeModal.addEventListener("click", () => {
+        modal.classList.remove("show");
+        setTimeout(() => {
+          modal.style.display = "none";
+        }, 300);
+      });
+
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.classList.remove("show");
+          setTimeout(() => {
+            modal.style.display = "none";
+          }, 300);
+        }
+      });
+
+      // =========================================
+      // 5. CV WAIT MODAL LOGIC
+      // =========================================
+      const downloadCvBtn = document.getElementById("downloadCvBtn");
+      const downloadCvBtn2 = document.getElementById("downloadCvBtn2");
+      const cvModal = document.getElementById("cvModal");
+      const cvCloseBtn = document.getElementById("cvCloseBtn");
+      const cvBackBtn = document.getElementById("cvBackBtn");
+      const cvExitBtnFooter = document.getElementById("cvExitBtnFooter");
+
+      function openCvModal(e) {
+        if (e) e.preventDefault();
+        cvModal.style.display = "flex";
+        setTimeout(() => {
+          cvModal.classList.add("show");
+        }, 10);
+      }
+
+      function closeCvModal() {
+        cvModal.classList.remove("show");
+        setTimeout(() => {
+          cvModal.style.display = "none";
+        }, 300);
+      }
+
+      if (downloadCvBtn) downloadCvBtn.addEventListener("click", openCvModal);
+      if (downloadCvBtn2) downloadCvBtn2.addEventListener("click", openCvModal);
+      if (cvCloseBtn) cvCloseBtn.addEventListener("click", closeCvModal);
+      if (cvBackBtn) cvBackBtn.addEventListener("click", closeCvModal);
+      if (cvExitBtnFooter)
+        cvExitBtnFooter.addEventListener("click", closeCvModal);
+
+      window.addEventListener("click", (e) => {
+        if (e.target === cvModal) {
+          closeCvModal();
+        }
+      });
+
+      // =========================================
+      // 6. TYPING EFFECT
+      // =========================================
+      const roles = [
+        "GIS & Remote Sensing Specialist",
+        "Spatial Data Scientist",
+        "GeoAI Enthusiast",
+        "Python GIS Automator",
+      ];
+      let ri = 0,
+        ci = 0,
+        del = false;
+      const tp = document.getElementById("type");
+
+      (function t() {
+        const w = roles[ri];
+        tp.textContent = w.slice(0, ci);
+        if (!del && ci++ === w.length) {
+          del = true;
+          return setTimeout(t, 1400);
+        }
+        if (del && --ci < 0) {
+          del = false;
+          ci = 0;
+          ri = (ri + 1) % roles.length;
+        }
+        setTimeout(t, del ? 35 : 70);
+      })();
+
+      // =========================================
+      // 7. THEME, MENU, YEAR
+      // =========================================
+      const root = document.documentElement;
+      document.getElementById("theme").onclick = () => {
+        root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
+      };
+      document.getElementById("menu").onclick = () =>
+        mobileMenu.classList.toggle("open");
+
+      document.getElementById("yr").textContent = new Date().getFullYear();
+
+      // =========================================
+      // 8. SKILL BARS & COUNTERS ANIMATION
+      // =========================================
+      const io = new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            if (!e.isIntersecting) return;
+
+            e.target
+              .querySelectorAll(".f")
+              .forEach((f) => (f.style.width = f.dataset.w + "%"));
+            e.target.querySelectorAll("[data-n]").forEach((c) => {
+              const n = +c.dataset.n;
+              let i = 0;
+              const s = setInterval(() => {
+                c.textContent = ++i;
+                if (i >= n) clearInterval(s);
+              }, 1200 / n);
+            });
+            io.unobserve(e.target);
+          }),
+        { threshold: 0.15 },
+      );
+      document
+        .querySelectorAll(".dashboard-section")
+        .forEach((s) => io.observe(s));
+
+      // =========================================
+      // 9. PROJECT FILTER
+      // =========================================
+      document.querySelectorAll(".filters button").forEach(
+        (b) =>
+          (b.onclick = () => {
+            document
+              .querySelectorAll(".filters button")
+              .forEach((x) => x.classList.remove("on"));
+            b.classList.add("on");
+            document.querySelectorAll(".pj").forEach((p) => {
+              p.style.display =
+                b.dataset.f === "all" || p.dataset.c.includes(b.dataset.f)
+                  ? ""
+                  : "none";
+            });
+          }),
+      );
+
+      // =========================================
+      // 10. CONTACT FORM (OPENS EMAIL APP)
+      // =========================================
+      document.getElementById("cf").onsubmit = (e) => {
+        e.preventDefault();
+        const s = encodeURIComponent("Portfolio message from " + nm.value),
+          b = encodeURIComponent(
+            ms.value + "\n\n" + nm.value + " (" + em.value + ")",
+          );
+        location.href = "mailto:ke438740@gmail.com?subject=" + s + "&body=" + b;
+      };
+
+      // =========================================
+      // 11. ANIMATED BACKGROUND
+      // =========================================
+      const c = document.getElementById("bg"),
+        x = c.getContext("2d");
+      let W,
+        H,
+        pts = [];
+
+      function rs() {
+        W = c.width = innerWidth;
+        H = c.height = innerHeight;
+        pts = Array.from({ length: Math.min(70, W / 18) }, () => ({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+        }));
+      }
+
+      addEventListener("resize", rs);
+      rs();
+
+      (function d() {
+        x.clearRect(0, 0, W, H);
+        const col = getComputedStyle(root).getPropertyValue("--ac").trim();
+        x.strokeStyle = col;
+        x.fillStyle = col;
+        x.globalAlpha = 0.07;
+        for (let i = 0; i < W; i += 60) {
+          x.beginPath();
+          x.moveTo(i, 0);
+          x.lineTo(i, H);
+          x.stroke();
+        }
+        for (let j = 0; j < H; j += 60) {
+          x.beginPath();
+          x.moveTo(0, j);
+          x.lineTo(W, j);
+          x.stroke();
+        }
+        pts.forEach((p, i) => {
+          p.x = (p.x + p.vx + W) % W;
+          p.y = (p.y + p.vy + H) % H;
+          x.globalAlpha = 0.8;
+          x.beginPath();
+          x.arc(p.x, p.y, 2, 0, 7);
+          x.fill();
+          for (let k = i + 1; k < pts.length; k++) {
+            const q = pts[k],
+              dd = Math.hypot(p.x - q.x, p.y - q.y);
+            if (dd < 130) {
+              x.globalAlpha = (1 - dd / 130) * 0.3;
+              x.beginPath();
+              x.moveTo(p.x, p.y);
+              x.lineTo(q.x, q.y);
+              x.stroke();
+            }
+          }
+        });
+        requestAnimationFrame(d);
+      })();
+    </script>
+  </body>
+</html>
